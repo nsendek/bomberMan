@@ -10,7 +10,7 @@ final static float PLAYER_MAX_VEL = 0.9;
 final static float BOMB_MAX_VEL = 1.25;
 final static float ACCELERATION = 0.2;
 //bomb
-final static float bombTimerSeconds =  4;//16;
+final static float bombTimerSeconds = 15;
 final static float explosionDurationSeconds = 0.5;
 final static float playerFreezeDurationSeconds = 1;
 //display
@@ -19,13 +19,10 @@ final static int displayRadius = 220;
 final static int displayPixelSize = 25;
 final static int screenDim = 480;
 final static int appFramerate = 45;
-
-
-//game ControllerMode
+//game Controller Mode
 final static boolean USE_JOYSTICK = false;
 
 final DisplayBuffer display = new DisplayBuffer(displaySize,displayRadius);
-
 final Game game = new Game();
 final Player playerOne = new Player(0, color(0,255,255));
 final Player playerTwo = new Player(int(displaySize/2), color(255,0,255));  
@@ -44,14 +41,27 @@ void setup() {
   animation = adjustAnimationToFrameRate(animation);
   bomb.attach(getRandomPlayer(), true);
   startSerial();
-  game.init();
+  if (!USE_JOYSTICK) {game.init();}
 }
 
 void draw() {
   background(155);
-  println(playerOne.currentKey);
   game.update();
   display.show();
+}
+
+void keyPressed() {  
+  if (!USE_JOYSTICK) {
+    applyPress(playerTwo,'j','l','i');
+    applyPress(playerOne,'a','d','w');
+  }
+}
+
+void keyReleased() {
+  if (!USE_JOYSTICK) {
+    applyRelease(playerTwo,'j','l');
+    applyRelease(playerOne,'a','d');
+  }
 }
 
 Player getRandomPlayer() {
@@ -68,8 +78,7 @@ ArrayList<PImage> ArrayListFrom(PImage[] b) {
 
 ArrayList<PImage> adjustAnimationToFrameRate(ArrayList<PImage> animation) {
   int ratio = round((explosionDurationSeconds*appFramerate)/animation.size()); 
-  ArrayList<PImage> adjustedAnimation = new ArrayList<PImage>();
-  
+  ArrayList<PImage> adjustedAnimation = new ArrayList<PImage>();  
   for (int i = 0; i < animation.size(); i ++){
     for (int j = 0; j < ratio; j++) {
       adjustedAnimation.add(animation.get(i));
@@ -78,60 +87,22 @@ ArrayList<PImage> adjustAnimationToFrameRate(ArrayList<PImage> animation) {
   return adjustedAnimation;
 }
 
-void keyPressed() {  
-  if (!USE_JOYSTICK) {
-    switch(key) {  
-      case ' ':
-        playerOne.log();
-        playerTwo.log();
-        break;
-      case 'A': case 'a':
-        playerOne.applyKeys("LEFT");
-        break;
-      case 'D': case 'd':
-        playerOne.applyKeys("RIGHT");
-        break;
-      case 'W': case 'w':
-        playerOne.jump();
-        break;
-      case 'J': case 'j':
-        playerTwo.applyKeys("LEFT");
-        break;
-      case 'L': case 'l':
-        playerTwo.applyKeys("RIGHT");
-        break;
-      case 'I': case 'i':
-        playerTwo.jump();
-        break;
-      default: break;
-    }
+void applyPress(Player player, char left, char right,  char up) {
+  char _key = Character.toLowerCase(key);     
+  if (_key == left) {
+    player.applyKeys("LEFT");
+  } else if (_key == right) {
+    player.applyKeys("RIGHT");
+  } else if (_key == up) {
+    player.jump();
   }
 }
 
-void keyReleased() {
-  if (!USE_JOYSTICK) {
-    switch(key) {  
-      case 'J': case 'j':
-        if (playerTwo.currentKey == "LEFT") {
-          playerTwo.applyKeys("");
-        } break; 
-        
-       case 'L': case 'l':
-        if (playerTwo.currentKey == "RIGHT") {
-          playerTwo.applyKeys("");
-        }
-        break;
-      case 'A': case 'a': 
-        if (playerOne.currentKey == "LEFT") {
-          playerOne.applyKeys("");
-        }
-        break; 
-      case 'D': case 'd':
-        if (playerOne.currentKey == "RIGHT") {
-          playerOne.applyKeys("");
-        }
-        break;
-      default: break;
-    }
+void applyRelease(Player player, char left, char right) {
+  char _key = Character.toLowerCase(key);     
+  if (_key == left && player.currentKey == "LEFT") {
+    player.applyKeys("");
+  } else if (_key == right && player.currentKey == "RIGHT") {
+    player.applyKeys("");
   }
 }

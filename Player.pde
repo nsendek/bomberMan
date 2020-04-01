@@ -1,4 +1,5 @@
-class Player {  
+class Player {
+  //private static int counter = 0;/
   //init variable
   color playerColor;
   float origin;
@@ -25,15 +26,6 @@ class Player {
   void reset() {
     position = origin;
     speed = 0;
-  }
-  
-  void log() {
-    println("color: " + hex(playerColor));
-    println("frozenDelay: " + frozenDelay);
-    println("position: " + position);
-    println("zHeight: " + zHeight);
-    println("hasBomb: " + bomb.attachedTo(this));
-    println();
   }
   
   void setPos(int pos) {

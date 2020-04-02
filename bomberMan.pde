@@ -10,7 +10,7 @@ final static float PLAYER_MAX_VEL = 0.9;
 final static float BOMB_MAX_VEL = 1.25;
 final static float ACCELERATION = 0.2;
 //bomb
-final static float bombTimerSeconds = 15;
+final static float bombTimerSeconds = 5;
 final static float explosionDurationSeconds = 0.5;
 final static float playerFreezeDurationSeconds = 1;
 //display
@@ -52,8 +52,10 @@ void draw() {
 
 void keyPressed() {  
   if (!USE_JOYSTICK) {
-    applyPress(playerTwo,'j','l','i');
-    applyPress(playerOne,'a','d','w');
+    
+    applyPress(playerOne,'a','d','w',' ');
+    
+    applyPress(playerTwo,'j','l','i',' ');
   }
 }
 
@@ -87,7 +89,7 @@ ArrayList<PImage> adjustAnimationToFrameRate(ArrayList<PImage> animation) {
   return adjustedAnimation;
 }
 
-void applyPress(Player player, char left, char right,  char up) {
+void applyPress(Player player, char left, char right,  char up, char restart) {
   char _key = Character.toLowerCase(key);     
   if (_key == left) {
     player.applyKeys("LEFT");
@@ -95,6 +97,8 @@ void applyPress(Player player, char left, char right,  char up) {
     player.applyKeys("RIGHT");
   } else if (_key == up) {
     player.jump();
+  } else if (_key == restart) {
+    game.restart(); 
   }
 }
 

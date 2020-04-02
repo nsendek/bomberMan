@@ -30,7 +30,7 @@ void serialEvent(Serial myPort) {
     if (inByte == 'A') {
       myPort.clear();          // clear the serial port buffer
       firstContact = true;     // you've had first contact from the microcontroller
-      //game.init();
+      game.init();
       myPort.write('A');       // ask for more
     }
     

@@ -9,11 +9,8 @@ int joyX1, joyY1, button1, joyButton1;  // Variables for storing incoming sensor
 int joyX2, joyY2, button2, joyButton2; 
 
 void startSerial() {
-  // Print a list of the serial ports for debugging purposes
-  printArray(Serial.list());
-  
-  // Open whatever port is the one you're using. 
   if (USE_JOYSTICK) {
+    printArray(Serial.list());
     int portNumber = 5;
     String portName = Serial.list()[portNumber];
     myPort = new Serial(this, portName, 57600);

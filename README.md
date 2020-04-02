@@ -3,3 +3,4 @@ a multiplayer game of hot potato/bomber man. Implemented in Processing and uses 
 
 Player 1 used A & D to move W to jump. 
 Player 2 used J & L to move I to jump. 
+SPACE to restart

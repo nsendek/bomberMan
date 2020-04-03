@@ -10,7 +10,7 @@ final static float PLAYER_MAX_VEL = 0.9;
 final static float BOMB_MAX_VEL = 1.25;
 final static float ACCELERATION = 0.2;
 //bomb
-final static float bombTimerSeconds = 5;
+final static float bombTimerSeconds = 15;
 final static float explosionDurationSeconds = 0.5;
 final static float playerFreezeDurationSeconds = 1;
 //display
